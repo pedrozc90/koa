@@ -1,0 +1,75 @@
+{
+    "name": "koa",
+    "version": "0.0.0",
+    "description": "koa + typescript boilerplate",
+    "type": "module",
+    "main": "src/index.ts",
+    "scripts": {
+        "start": "tsx src/index.ts",
+        "start:dev": "tsx watch --env-file=.env src/index.ts",
+        "build": "tsc --project tsconfig.json",
+        "type-check": "tsc --noEmit",
+        "format": "prettier . --check",
+        "format:fix": "prettier . --write",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "test": "vitest",
+        "test:run": "vitest run",
+        "test:coverage": "vitest run --coverage",
+        "prisma:generate": "prisma generate",
+        "prisma:clear": "prisma migrate reset --force",
+        "prisma:migrate": "prisma migrate dev --name init",
+        "prepare": "sh .githooks/prepare.sh"
+    },
+    "keywords": [
+        "koa"
+    ],
+    "homepage": "https://github.com/pedrozc90/koa#readme",
+    "bugs": {
+        "url": "https://github.com/pedrozc90/koa/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pedrozc90/koa.git"
+    },
+    "author": "pedrozc90+github@gmail.com",
+    "license": "MIT",
+    "dependencies": {
+        "@koa/bodyparser": "^6.1.0",
+        "@koa/cors": "^5.0.0",
+        "@koa/multer": "^4.0.0",
+        "@koa/router": "^15.6.0",
+        "@prisma/adapter-pg": "^7.8.0",
+        "@prisma/client": "^7.8.0",
+        "bcryptjs": "^3.0.3",
+        "jsonwebtoken": "^9.0.3",
+        "koa": "^3.2.1",
+        "koa-compose": "^4.1.0",
+        "koa-helmet": "^9.0.0",
+        "koa-jwt": "^4.0.4",
+        "pg": "^8.21.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/koa": "^3.0.3",
+        "@types/koa__cors": "^5.0.1",
+        "@types/koa__multer": "^2.0.8",
+        "@types/koa__router": "^12.0.5",
+        "@types/koa-compose": "^3.2.9",
+        "@types/node": "^24.13.1",
+        "@types/pg": "^8.20.0",
+        "@types/supertest": "^7.2.0",
+        "@vitest/coverage-v8": "^4.1.8",
+        "eslint": "^10.4.1",
+        "globals": "^17.6.0",
+        "jiti": "^2.7.0",
+        "prettier": "^3.8.4",
+        "prisma": "^6.19.3",
+        "supertest": "^7.2.2",
+        "tsx": "^4.22.4",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.61.0",
+        "vitest": "^4.1.8"
+    }
+}

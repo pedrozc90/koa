@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+echo "Running format check..."
+npm run format
+
+echo "Running lint..."
+npm run lint
+
+# annoying as hell for koa (-_-")
+# echo "Running type check..."
+# npm run type-check

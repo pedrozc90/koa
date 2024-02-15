@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client"
+    output   = "../src/generated"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum Role {
+    NONE
+    NORMAL
+    MASTER
+}
+
+model User {
+    id         BigInt   @default(autoincrement()) @id
+    
+    insertedAt DateTime @default(now()) @map("inserted_at")
+    updatedAt  DateTime @updatedAt @map("updated_at")
+    version    Int      @default(1)
+    
+    email      String   @db.VarChar(255)
+    password   String   @db.VarChar(64)
+    role       Role     @default(NONE)
+
+    @@map("users")
+    @@unique([email], map: "users_email_ukey")
+
+    // back-relations (not used directly)
+    storedFilesInserted  StoredFile[]  @relation("StoredFileInsertedBy")
+    storedFilesUpdated   StoredFile[]  @relation("StoredFileUpdatedBy")
+}
+
+enum StorageFileType {
+    local
+    bucket
+}
+
+model StoredFile {
+    id              BigInt   @default(autoincrement()) @id
+    
+    insertedAt      DateTime @default(now()) @map("inserted_at")
+    insertedByUser  User?    @relation("StoredFileInsertedBy", fields: [insertedBy], references: [id])  // one-to-many
+    insertedBy      BigInt?  @map("inserted_by")
+    updatedAt       DateTime @updatedAt @map("updated_at")
+    updatedByUser   User?    @relation("StoredFileUpdatedBy",fields: [updatedBy], references: [id])  // one-to-many
+    updatedBy       BigInt?  @map("updated_by")
+    version         Int      @default(1)
+
+    // bucket
+    storageType     StorageFileType @default(local) @map("storage_type")
+    objectKey       String?  @db.VarChar(1000) @map("object_key")
+    etag            String?  @db.VarChar(255) @map("etag")
+
+    // metadata
+    hash            String   @db.VarChar(64)
+    filename        String   @db.VarChar(255)
+    contentType     String   @db.VarChar(255) @map("content_type")
+
+    content         Bytes?   @db.ByteA
+    size            BigInt   @default(0)
+
+    @@map("stored_files")
+    @@unique([hash], map: "stored_files_hash_ukey")
+    @@index([objectKey], map: "stored_files_object_key_idx")
+    @@index([etag], map: "stored_files_etag_idx")
+}
