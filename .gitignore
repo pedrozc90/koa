@@ -1,0 +1,10 @@
+# node
+node_modules/
+dist/
+
+# jest
+coverage/
+
+# files
+logs/
+docs/debug.ts

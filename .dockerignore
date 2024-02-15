@@ -1,0 +1,25 @@
+# IDE's files
+.vscode/
+
+# node
+node_modules/
+dist/
+
+# jest
+coverage/
+
+# docker
+.dockerignore
+docker-compose.yml
+Dockerfile
+
+# git files
+.git
+.gitignore
+.gitattributes
+
+# other files
+docs/
+LICENSE
+nodemon.json
+README.md
