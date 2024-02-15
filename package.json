@@ -1,0 +1,69 @@
+{
+	"name": "koa",
+	"version": "0.0.0",
+	"description": "koa boilerplate",
+	"main": "dist/server.js",
+	"scripts": {
+		"build": "tsc --project tsconfig.json",
+		"build:watch": "tsc --project tsconfig.json --watch",
+		"build:render": "npm ci --include dev && npm run build",
+		"start": "node dist/server.js",
+		"start:dev": "nodemon src/server.ts",
+		"test": "vitest",
+		"format": "prettier --check .",
+		"format:fix": "prettier --write ."
+	},
+	"keywords": [
+		"koa",
+		"rest",
+		"api",
+		"boilerplate"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pedrozc90/koa.git"
+	},
+	"author": "pedrozc90+github@gmail.com",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/pedrozc90/koa/issues"
+	},
+	"homepage": "https://github.com/pedrozc90/koa#readme",
+	"dependencies": {
+		"@koa/bodyparser": "^6.1.0",
+		"@koa/cors": "^5.0.0",
+		"@koa/multer": "^4.0.0",
+		"@koa/router": "^15.5.0",
+		"bytes": "^3.1.2",
+		"jsonwebtoken": "^9.0.3",
+		"koa": "^3.2.1",
+		"koa-compose": "^4.1.0",
+		"koa-helmet": "^8.0.3",
+		"koa-jwt": "^4.0.4",
+		"luxon": "^3.7.2",
+		"runtypes": "^7.0.4",
+		"winston": "^3.19.0"
+	},
+	"devDependencies": {
+		"@types/bytes": "^3.1.5",
+		"@types/jsonwebtoken": "^9.0.10",
+		"@types/koa": "^3.0.3",
+		"@types/koa__cors": "^5.0.1",
+		"@types/koa__multer": "^2.0.8",
+		"@types/koa__router": "^12.0.5",
+		"@types/koa-compose": "^3.2.9",
+		"@types/luxon": "^3.7.1",
+		"@types/node": "^24.12.4",
+		"@types/supertest": "^6.0.3",
+		"nodemon": "^3.1.14",
+		"prettier": "^3.8.3",
+		"supertest": "^7.2.2",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.9.3",
+		"vitest": "^4.1.8"
+	},
+	"engines": {
+		"node": "~24.x",
+		"npm": "~11.x"
+	}
+}

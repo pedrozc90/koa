@@ -1,0 +1,29 @@
+# references
+#   docker network: https://docs.docker.com/engine/reference/commandline/network_create/
+#   docker volume: https://docs.docker.com/engine/reference/commandline/volume_create/
+
+version: "3.9"
+
+services:
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - PORT=4000
+        image: koa:0.1.0
+        container_name: koa
+        restart: unless-stopped
+        expose:
+            - 4000
+        environment:
+            NODE_ENV: "production"
+        ports:
+            - "4000:4000"
+        networks:
+            - backend
+
+networks:
+    backend:
+        name: backend
+        driver: bridge

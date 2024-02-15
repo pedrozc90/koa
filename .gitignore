@@ -1,0 +1,19 @@
+# IntelliJ
+.idea/*
+*.iml
+
+# VS Code
+.vscode/*
+
+# Node
+node_modules/*
+dist/*
+
+# jest
+coverage/
+
+# files
+logs/
+docs/debug.ts
+
+/src/generated/prisma
