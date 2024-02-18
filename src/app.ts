@@ -2,14 +2,16 @@ import Koa, { Context } from "koa";
 import helmet from "koa-helmet";
 import bodyParser from "@koa/bodyparser";
 
+import logger from "./logger";
 import config from "./config";
 import rootRouter from "./router/root.router";
 import userRouter from "./router/user.router";
 import fileStorageRouter from "./router/file-storage.router";
-import { pageNotFound, koaLogger } from "./middlewares";
+import { koaLogger, onError, onPageNotFound } from "./middlewares";
 
 const app = new Koa();
 
+app.use(onError());
 app.use(koaLogger);
 app.use(helmet());
 app.use(bodyParser());
@@ -21,14 +23,12 @@ app.use(userRouter.allowedMethods());
 app.use(fileStorageRouter.routes());
 app.use(fileStorageRouter.allowedMethods());
 
-app.use(pageNotFound);
+app.use(onPageNotFound());
 
 // error handler
 app.on("error", async (err: Error, ctx: Context) => {
-    ctx.logger.error(err);
     if (config.env !== "test") {
-        ctx.type = "json";
-        ctx.body = { message: err.message };
+        logger.error(err.stack);
     }
 });
 

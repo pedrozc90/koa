@@ -52,12 +52,9 @@ const log = (level: string = "info", ctx: Context, start_time: number, length: n
         color_method(ctx.method),
         ctx.originalUrl,
         "->",
-        color_status(status_code),
-        status_message,
-        "|",
-        `elapsed: ${elapsed_fmt}`,
-        ",",
-        (length_fmt) ? `payload: ${ length_fmt }` : ""
+        `Status: ${ color_status(status_code) },`,
+        `Reason: ${ status_message }`,
+        `(time: ${elapsed_fmt},  ${ (length_fmt) ? `size: ${ length_fmt }` : "" })`
     ].join(" ");
 
     logger.log(level, message);
