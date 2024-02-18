@@ -1,8 +1,8 @@
 export interface IPing {
     env: string;
-    timezone: string;
+    time_zone: string;
     timestamp: Date;
-    timestamp_locale: string;
+    local_timestamp: string;
     app: {
         name: string;
         version: string;

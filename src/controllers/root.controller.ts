@@ -1,8 +1,10 @@
 import { Context, Next } from "koa";
 
-import config from "../config";
 import { IPing } from "../types";
-import { toLocalTimestamp } from "../utils/datetime";
+import { settings } from "../config";
+import { toLocalTimestamp } from "../utils";
+
+const { env, name, version } = settings;
 
 export const index = (ctx: Context, next: Next) => {
     ctx.redirect("ping");
@@ -10,16 +12,16 @@ export const index = (ctx: Context, next: Next) => {
 
 export const ping = (ctx: Context, next: Next) => {
     const timestamp = new Date();
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const body: IPing = {
-        env: config.env,
-        timestamp,
-        timestamp_locale: toLocalTimestamp(timestamp, timezone),
-        timezone,
+        env: env,
+        timestamp: timestamp,
+        local_timestamp: toLocalTimestamp(timestamp, time_zone),
+        time_zone: time_zone,
         app: {
-            name: config.name,
-            version: config.version
+            name: name,
+            version: version
         }
     };
 

@@ -1,6 +1,6 @@
 import { expect, describe, it } from "@jest/globals";
 
-import { leftPad, rightPad, createHash, toLocalTimestamp } from "../src/utils";
+import { leftPad, rightPad, createHash, toLocalTimestamp } from "../../src/utils";
 import crypto from "crypto";
 
 describe("DateTimeUtils", () => {

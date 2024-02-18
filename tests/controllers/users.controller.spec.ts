@@ -1,19 +1,21 @@
-import { expect, describe, it, afterAll } from "@jest/globals";
-import supertest from "supertest";
+import { expect, describe, it, afterAll, beforeAll } from "@jest/globals";
 
-import app from "../src/app";
+import { TestFactory } from "../factory";
 
-const server = app.listen();
-const request = supertest.agent(server);
+const factory = new TestFactory();
 
-afterAll(() => {
-    server.close();
+beforeAll(async () => {
+    await factory.init();
+})
+
+afterAll(async () => {
+    await factory.close();
 });
 
 describe("root controller", () => {
     describe("GET /users", () => {
         it("should return a empty list", async () => {
-            const response = await request.get("/users");
+            const response = await factory.agent.get("/users");
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("users");
             expect(response.body.users).toStrictEqual([]);
@@ -22,7 +24,7 @@ describe("root controller", () => {
 
     describe("POST /users", () => {
         it("should return a new user", async () => {
-            const response = await request.post("/users").send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
+            const response = await factory.agent.post("/users").send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
             expect(response.status).toBe(201);
             expect(response.body).toHaveProperty("id");
             expect(response.body).toHaveProperty("email");
@@ -36,7 +38,7 @@ describe("root controller", () => {
     describe("GET /users/:id", () => {
         it("should return 'user not found'", async () => {
             const id = 1;
-            const response = await request.get(`/users/${id}`);
+            const response = await factory.agent.get(`/users/${id}`);
             expect(response.status).toBe(404);
             expect(response.body).toHaveProperty("message");
             expect(response.body.message).toBe(`User ${id} not found.`);
@@ -46,7 +48,7 @@ describe("root controller", () => {
     describe("PUT /users/:id", () => {
         it("should update user data", async () => {
             const id = 1;
-            const response = await request.put(`/users/${id}`).send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
+            const response = await factory.agent.put(`/users/${id}`).send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("id");
             expect(response.body).toHaveProperty("email");

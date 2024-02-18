@@ -3,7 +3,9 @@ import colors from "@colors/colors/safe";
 import { TransformableInfo } from "logform";
 import { DateTime } from "luxon";
 
-import config from "./config";
+import { settings } from "./settingts";
+
+const { test } = settings;
 
 const formatter = (info: TransformableInfo, opts?: any) => {
     const { timestamp, level, message, ...args } = info;
@@ -18,8 +20,8 @@ const formatter = (info: TransformableInfo, opts?: any) => {
 };
 
 // Define the Winston logger configuration
-const logger = winston.createLogger({
-    silent: (config.env === "test"),
+export const logger = winston.createLogger({
+    silent: test,
     level: "info",
     format: winston.format.combine(
         winston.format.colorize(),
@@ -32,5 +34,3 @@ const logger = winston.createLogger({
         new winston.transports.File({ filename: "logs/application.log" })
     ]
 });
-
-export default logger;  

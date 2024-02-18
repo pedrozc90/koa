@@ -3,10 +3,12 @@ export interface ILoggerConfig {
     time_zone: string;
 }
 
-export interface IConfig {
+export interface ISettings {
+    env: string | "production" | "development" | "test";
+    development: boolean;
+    test: boolean;
     name: string;
     version: string;
-    env: string | "production" | "development" | "test";
     port: number;
     storage: string;
     logger: ILoggerConfig;

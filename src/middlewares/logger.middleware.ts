@@ -3,9 +3,8 @@ import { Context, Next } from "koa";
 import bytes from "bytes";
 import colors from "@colors/colors/safe";
 
-import logger from "../logger";
-import { formatTime } from "../utils";
-import * as StreamUtils from "../utils/stream";
+import { logger } from "../config";
+import { Counter, formatTime } from "../utils";
 import { HttpStatusMessage } from "../types";
 
 const COLOR_CODES: Record<number, (s: string) => string> = {
@@ -52,9 +51,9 @@ const log = (level: string = "info", ctx: Context, start_time: number, length: n
         color_method(ctx.method),
         ctx.originalUrl,
         "->",
-        `Status: ${ color_status(status_code) },`,
-        `Reason: ${ status_message }`,
-        `(time: ${elapsed_fmt},  ${ (length_fmt) ? `size: ${ length_fmt }` : "" })`
+        `Status: ${color_status(status_code)},`,
+        `Reason: ${status_message}`,
+        `(time: ${elapsed_fmt},  ${(length_fmt) ? `size: ${length_fmt}` : ""})`
     ].join(" ");
 
     logger.log(level, message);
@@ -79,7 +78,7 @@ export const koaLogger = async (ctx: Context, next: Next): Promise<void> => {
 
     // const { body, response: { length } } = ctx;
     if (length === null && body && body instanceof Stream.Readable && body.readable) {
-        let counter = new StreamUtils.Counter();
+        let counter = new Counter();
         ctx.body = body.pipe(counter)
             .on("end", () => {
                 length = counter.length;

@@ -1,24 +1,26 @@
-import { expect, describe, it, afterAll } from "@jest/globals";
-import supertest from "supertest";
+import { expect, describe, it, afterAll, beforeAll } from "@jest/globals";
 
-import app from "../src/app";
+import { TestFactory } from "../factory";
 
-const server = app.listen();
-const request = supertest.agent(server);
+const factory = new TestFactory();
 
-afterAll(() => {
-    server.close();
+beforeAll(async () => {
+    await factory.init();
+})
+
+afterAll(async () => {
+    await factory.close();
 });
 
 describe("file-storage controller", () => {
     describe("POST /api/fs", () => {
         it("should return a file_storage", async () => {
-            const response = await request.post("/api/fs").attach("file", "docs/test.txt");
+            const response = await factory.agent.post("/api/fs").attach("file", "docs/test.txt");
 
             expect(response.status).toBe(201);
-            
+
             expect(response.body).toHaveProperty("file_storage");
-            
+
             const file_storage = response.body.file_storage;
             expect(file_storage).toBeDefined();
 

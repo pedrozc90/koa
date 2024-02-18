@@ -1,15 +1,18 @@
 import os from "os";
 import path from "path";
-import * as pkg from "../package.json";
-import { IConfig } from "./types/config";
+
+import * as pkg from "../../package.json";
+import { ISettings } from "../types";
 
 const env =  process.env.NODE_ENV || "development";
 const port = (env !== "test") ? (Number(process.env.PORT) || 3000) : 0;
 
-const config: IConfig = {
+export const settings: ISettings = {
+    env: env,
+    test: (env === "test"),
+    development: (env === "development"),
     name: pkg.name,
     version: pkg.version,
-    env: env,
     port: port,
     storage: process.env.STORAGE || path.join(os.tmpdir(), pkg.name),
     logger: {
@@ -17,5 +20,3 @@ const config: IConfig = {
         time_zone: "America/Sao_Paulo"
     }
 };
-
-export default config;

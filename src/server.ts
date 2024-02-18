@@ -1,51 +1,54 @@
 import http from "http";
-import config from "./config";
-import logger from "./logger";
-import app from "./app";
 
-const env = config.env;
-const port = config.port;
-const version = config.version;
+import { settings, logger } from "./config";
+import { init } from "./app";
 
-const server: http.Server = app.listen(port, "127.0.0.1");
+const { env, name, port, version } = settings;
 
-if (require.main === module) {
-    server.on("listening", () => {
-        if (!server.listening) return;
+const main = async () => {
+    const app = await init();
+    const server: http.Server = app.listen(port, "127.0.0.1");
 
-        const addr = server.address();
+    if (require.main === module) {
+        server.on("listening", () => {
+            if (!server.listening) return;
 
-        const bind = (addr) ? (typeof addr === "string" ? `Pipe ${addr}` : `http://${addr.address}:${addr.port}`) : null;
+            const addr = server.address();
 
-        logger.info("----------------------------------------------------------------------");
-        logger.info(`Application running on ${bind}`);
-        logger.info("To shut it down, press CTRL + C at any time.");
-        logger.info("----------------------------------------------------------------------");
-        logger.info(`Application ${config.name} v${config.version} running as ${config.env} mode.`);
-        logger.info("----------------------------------------------------------------------");
-    });
+            const bind = (addr) ? (typeof addr === "string" ? `Pipe ${addr}` : `http://${addr.address}:${addr.port}`) : null;
 
-    server.on("error", (error: Error | any) => {
-        if (error.syscall !== "listen") {
-            throw error;
-        }
+            logger.info("----------------------------------------------------------------------");
+            logger.info(`Application running on ${bind}`);
+            logger.info("To shut it down, press CTRL + C at any time.");
+            logger.info("----------------------------------------------------------------------");
+            logger.info(`Application ${name} v${version} running as ${env} mode.`);
+            logger.info("----------------------------------------------------------------------");
+        });
 
-        const bind: string = (typeof port === "string") ? "Pipe " + port : "Port " + port;
-
-        // handle specific listen errors with friendly messages
-        switch (error.code) {
-            case "EACCES":
-                console.error(bind + " requires elevated privileges");
-                process.exit(1);
-            // break;
-            case "EADDRINUSE":
-                console.error(bind + " is already in use");
-                process.exit(1);
-            // break;
-            default:
+        server.on("error", (error: Error | any) => {
+            if (error.syscall !== "listen") {
                 throw error;
-        }
-    });
+            }
+
+            const bind: string = (typeof port === "string") ? "Pipe " + port : "Port " + port;
+
+            // handle specific listen errors with friendly messages
+            switch (error.code) {
+                case "EACCES":
+                    console.error(bind + " requires elevated privileges");
+                    process.exit(1);
+                // break;
+                case "EADDRINUSE":
+                    console.error(bind + " is already in use");
+                    process.exit(1);
+                // break;
+                default:
+                    throw error;
+            }
+        });
+    }
+
+    return server;
 }
 
-export default server;
+main();
