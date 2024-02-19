@@ -6,6 +6,9 @@ import { IFileStorage, Page } from "../types";
 import { createHash } from "../utils";
 
 export const fetch = async (ctx: Context, next: Next) => {
+    const page = Number(ctx.query.page) || 1;
+    const rpp = Number(ctx.query.rpp) || undefined;
+    
     const list: any[] = ["Dockerfile", "docker-compose.yml", "package.json", "README.md"]
         .map((filename) => {
             try {
@@ -25,7 +28,7 @@ export const fetch = async (ctx: Context, next: Next) => {
         });
 
     ctx.status = 200
-    ctx.body = Page.of<IFileStorage>(list, 1, 15, list.length);
+    ctx.body = Page.of<IFileStorage>(list, page, rpp, list.length);
 }
 
 export const upload = async (ctx: Context, next: Next) => {
