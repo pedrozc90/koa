@@ -19,4 +19,8 @@ export const settings: ISettings = {
         level: "INFO",
         time_zone: "America/Sao_Paulo"
     }
+    // jwt: {
+    //     secret_key: process.env.JWT_SECRET_KEY || "x",
+    //     expiration: process.env.JWT_EXPIRATION || "12h"
+    // }
 };

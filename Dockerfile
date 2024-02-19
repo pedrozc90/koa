@@ -50,4 +50,4 @@ RUN ls -al
 EXPOSE $PORT
 
 # rum server
-CMD [ "node", "/app/dist/index.js" ]
+CMD [ "npm", "start" ]

@@ -7,7 +7,7 @@ const { env, name, port, version } = settings;
 
 const main = async () => {
     const app = await init();
-    const server: http.Server = app.listen(port, "127.0.0.1");
+    const server: http.Server = app.listen(port);
 
     if (require.main === module) {
         server.on("listening", () => {

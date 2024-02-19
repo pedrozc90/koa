@@ -12,19 +12,15 @@ services:
             dockerfile: Dockerfile
             args:
                 - PORT=4000
-        image: ts-express:1.0.1
-        container_name: ts-express
+        image: koa:0.1.0
+        container_name: koa
         restart: unless-stopped
         expose:
             - 4000
         environment:
             NODE_ENV: "production"
-            APP_NAME: "ts-express"
-            APP_VERSION: "1.0.1"
-            JWT_SECRET_KEY: "production"
-            JWT_EXPIRATION: "12h"
         ports:
-            - "9000:4000"
+            - "4000:4000"
         networks:
             - backend
 

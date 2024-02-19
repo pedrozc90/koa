@@ -1,6 +1,11 @@
-export interface ILoggerConfig {
+export interface ILoggerSettings {
     level: string;
     time_zone: string;
+}
+
+export interface IJWTSettings {
+    secret_key: string;
+    expiration: string;
 }
 
 export interface ISettings {
@@ -11,5 +16,6 @@ export interface ISettings {
     version: string;
     port: number;
     storage: string;
-    logger: ILoggerConfig;
+    logger: ILoggerSettings;
+    jwt?: IJWTSettings;
 }
