@@ -1,4 +1,4 @@
-import Koa, { Context } from "koa";
+import Koa, { Context, Next } from "koa";
 import helmet from "koa-helmet";
 import bodyParser from "@koa/bodyparser";
 

@@ -8,6 +8,14 @@ export interface IJWTSettings {
     expiration: string;
 }
 
+export interface IDatabaseSettings {
+    host: string;
+    port: number;
+    user: string;
+    pass: string;
+    name: string;
+}
+
 export interface ISettings {
     env: string | "production" | "development" | "test";
     development: boolean;
@@ -18,4 +26,5 @@ export interface ISettings {
     storage: string;
     logger: ILoggerSettings;
     jwt?: IJWTSettings;
+    database: IDatabaseSettings;
 }

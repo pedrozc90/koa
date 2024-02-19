@@ -14,17 +14,28 @@ services:
                 - PORT=4000
         image: koa:0.1.0
         container_name: koa
+        hostname: koa
         restart: unless-stopped
         expose:
             - 4000
         environment:
             NODE_ENV: "production"
+            DB_HOST: "postgres"         # postgres container hostname
+            DB_PORT: 5432
+            DB_USER: "postgres"
+            DB_PASS: "postgres"
+            DB_NAME: "pedrozc90"
         ports:
             - "4000:4000"
         networks:
             - backend
+            - postgres_network
 
 networks:
     backend:
         name: backend
         driver: bridge
+    postgres_network:
+        name: postgres_network
+        driver: bridge
+        external: true
