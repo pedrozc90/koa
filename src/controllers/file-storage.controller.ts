@@ -10,7 +10,7 @@ export const fetch = async (ctx: Context, next: Next) => {
     const page = Number(ctx.query.page) || 1;
     const rpp = Number(ctx.query.rpp) || undefined;
     const q = ctx.query.q;
-
+    
     let query = fileStorageService.repo.createQueryBuilder("fs");
 
     if (q) {
@@ -26,7 +26,7 @@ export const fetch = async (ctx: Context, next: Next) => {
     const list = await query.orderBy("fs.filename", "ASC").getMany();
 
     ctx.status = 200
-    ctx.body = Page.of<FileStorage>(list, 1, 15, list.length);
+    ctx.body = Page.of<FileStorage>(list, page, rpp, list.length);
 }
 
 export const upload = async (ctx: Context, next: Next) => {

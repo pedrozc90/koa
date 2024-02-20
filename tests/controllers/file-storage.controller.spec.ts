@@ -13,29 +13,23 @@ afterAll(async () => {
 });
 
 describe("file-storage controller", () => {
-    describe("GET /api/fs", () => {
-        it("should return paged list", async () => {
+    describe("GET /file-storage", () => {
+        it("should return a paged list", async () => {
             const page = 1;
-            const rpp = 10;
-            const response = await factory.agent.get(`/api/fs?page=${ page }&rpp=${ rpp }`);
-
+            const rpp = 2;
+            const response = await factory.agent.get(`/file-storage?page=${ page }&rpp=${ rpp }`);
             expect(response.status).toBe(200);
-
-            const body = response.body;
-            expect(body).toHaveProperty("page");
-            expect(typeof body.page).toBe("number");
-            expect(body).toHaveProperty("rpp");
-            expect(typeof body.rpp).toBe("number");
-            expect(body).toHaveProperty("total");
-            expect(typeof body.total).toBe("number");
-            expect(body).toHaveProperty("list");
-            expect(Array.isArray(body.list)).toBe(true);
+            expect(response.body).toHaveProperty("page", page);
+            expect(response.body).toHaveProperty("rpp", rpp);
+            expect(response.body).toHaveProperty("total");
+            expect(response.body).toHaveProperty("list");
+            expect(response.body.list.length).toBeGreaterThanOrEqual(0);
         });
     });
 
-    describe("POST /api/fs", () => {
-        it("should return a body", async () => {
-            const response = await factory.agent.post("/api/fs").attach("file", "docs/test.txt");
+    describe("POST /file-storage", () => {
+        it("should register a new file_storage", async () => {
+            const response = await factory.agent.post("/file-storage").attach("file", "docs/test.txt");
 
             expect(response.status).toBe(201);
 
@@ -54,10 +48,14 @@ describe("file-storage controller", () => {
         });
     });
 
-    describe("GET /api/fs/:id", () => {
+    describe("GET /file-storage/:id", () => {
         it("should return file_storate data", async () => {
-            const id = 12;
-            const response = await factory.agent.get(`/api/fs/${ id }`);
+            const insert = await factory.agent.post("/file-storage").attach("file", "docs/test.txt");
+            expect(insert.status).toBe(201);
+            expect(insert.body).toHaveProperty("id");
+
+            const id = insert.body.id;
+            const response = await factory.agent.get(`/file-storage/${ id }`);
 
             expect(response.status).toBe(200);
 
@@ -69,6 +67,16 @@ describe("file-storage controller", () => {
             expect(body).toHaveProperty("content_type");
             expect(body).toHaveProperty("size");
             expect(body).not.toHaveProperty("content");
+        });
+    });
+
+    describe("GET /file-storage", () => {
+        it("should return a file_storage", async () => {
+            const id = 1;
+            const response = await factory.agent.get(`/file-storage/${ id }/content`);
+            expect(response.status).toBe(200);
+            expect(response.body).toBeDefined();
+            expect(response.header["content-type"]).toBeDefined();
         });
     });
 });
