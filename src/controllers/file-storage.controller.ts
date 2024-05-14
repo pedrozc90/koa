@@ -17,7 +17,7 @@ export const fetch = async (ctx: Context, next: Next) => {
         query = query.where("fs.filename = :filename", { filename: q })
     }
 
-    const total = await query.getCount();
+    const count = await query.getCount();
 
     if (rpp) {
         query = query.offset((page - 1) * rpp).limit(rpp);
@@ -25,8 +25,8 @@ export const fetch = async (ctx: Context, next: Next) => {
     
     const list = await query.orderBy("fs.filename", "ASC").getMany();
 
-    ctx.status = 200
-    ctx.body = Page.of<FileStorage>(list, 1, 15, list.length);
+    ctx.status = 200;
+    ctx.body = Page.of<FileStorage>(list, 1, 15, count);
 }
 
 export const upload = async (ctx: Context, next: Next) => {
@@ -63,7 +63,7 @@ export const get = async (ctx: Context, next: Next) => {
     ctx.body = file_storage;
 }
 
-export const getContent = async (ctx: Context, next: Next) => {
+export const content = async (ctx: Context, next: Next) => {
     const id = Number(ctx.params.id) || 0;
     const file_storage = await fileStorageService.getWithContent(id);
     if (!file_storage) {

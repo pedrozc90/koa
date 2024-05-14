@@ -1,11 +1,11 @@
 import Router from "@koa/router";
-import { fetch, get, save, update } from "../controllers/users.controller";
+import { userController } from "../controllers";
 
 const router = new Router({ prefix: "/users" });
 
-router.get("/", fetch);
-router.post("/", save);
-router.get("/:id", get);
-router.put("/:id", update);
+router.get("/", userController.fetch);
+router.post("/", userController.save);
+router.get("/:id", userController.get);
+router.put("/:id", userController.update);
 
-export default router;
+export const userRouter = router;

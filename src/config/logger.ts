@@ -3,7 +3,7 @@ import colors from "@colors/colors/safe";
 import { TransformableInfo } from "logform";
 import { DateTime } from "luxon";
 
-import { settings } from "./settingts";
+import { settings } from "./settings";
 
 const { test } = settings;
 

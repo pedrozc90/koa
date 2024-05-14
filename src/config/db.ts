@@ -2,7 +2,7 @@ import path from "path";
 import { DataSource, DataSourceOptions } from "typeorm";
 import "reflect-metadata";
 
-import { settings } from "./settingts";
+import { settings } from "./settings";
 
 const { env, database } = settings;
 

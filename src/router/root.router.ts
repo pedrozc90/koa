@@ -1,9 +1,9 @@
 import Router from "@koa/router";
-import { index, ping } from "../controllers/root.controller";
+import { rootController } from "../controllers";
 
 const router = new Router();
 
-router.get("/", index);
-router.get("/ping", ping);
+router.get("/", rootController.index);
+router.get("/ping", rootController.ping);
 
-export default router;
+export const rootRouter = router;

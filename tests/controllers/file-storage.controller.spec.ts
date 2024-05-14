@@ -13,11 +13,11 @@ afterAll(async () => {
 });
 
 describe("file-storage controller", () => {
-    describe("GET /api/fs", () => {
+    describe("GET /file-storage", () => {
         it("should return paged list", async () => {
             const page = 1;
             const rpp = 10;
-            const response = await factory.agent.get(`/api/fs?page=${ page }&rpp=${ rpp }`);
+            const response = await factory.agent.get(`/file-storage?page=${ page }&rpp=${ rpp }`);
 
             expect(response.status).toBe(200);
 
@@ -26,16 +26,16 @@ describe("file-storage controller", () => {
             expect(typeof body.page).toBe("number");
             expect(body).toHaveProperty("rpp");
             expect(typeof body.rpp).toBe("number");
-            expect(body).toHaveProperty("total");
-            expect(typeof body.total).toBe("number");
+            expect(body).toHaveProperty("count");
+            expect(typeof body.count).toBe("number");
             expect(body).toHaveProperty("list");
             expect(Array.isArray(body.list)).toBe(true);
         });
     });
 
-    describe("POST /api/fs", () => {
+    describe("POST /file-storage", () => {
         it("should return a body", async () => {
-            const response = await factory.agent.post("/api/fs").attach("file", "docs/test.txt");
+            const response = await factory.agent.post("/file-storage").attach("file", "docs/test.txt");
 
             expect(response.status).toBe(201);
 
@@ -54,10 +54,10 @@ describe("file-storage controller", () => {
         });
     });
 
-    describe("GET /api/fs/:id", () => {
-        it("should return file_storate data", async () => {
-            const id = 12;
-            const response = await factory.agent.get(`/api/fs/${ id }`);
+    describe("GET /file-storage/:id", () => {
+        it("should return one file_storate", async () => {
+            const id = 1;
+            const response = await factory.agent.get(`/file-storage/${ id }`);
 
             expect(response.status).toBe(200);
 
@@ -69,6 +69,22 @@ describe("file-storage controller", () => {
             expect(body).toHaveProperty("content_type");
             expect(body).toHaveProperty("size");
             expect(body).not.toHaveProperty("content");
+        });
+    });
+
+    describe("GET /file-storage", () => {
+        it("should return file_storage not found", async () => {
+            const id = 1_000;
+            const response = await factory.agent.get(`/file-storage/${ id }`);
+            expect(response.status).toBe(404);
+        });
+    });
+
+    describe("GET /file-storage/:id/content", () => {
+        it("should return a file_storage content", async () => {
+            const id = 1;
+            const response = await factory.agent.get(`/file-storage/${ id }/content`);
+            expect(response.status).toBe(200);
         });
     });
 });

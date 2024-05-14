@@ -1,6 +1,4 @@
 import koaMulter from "@koa/multer";
-import { settings } from "./settingts";
+import { settings } from "./settings";
 
-const multer = koaMulter({ dest: settings.storage });
-
-export default multer;
+export const multer = koaMulter({ dest: settings.storage });
