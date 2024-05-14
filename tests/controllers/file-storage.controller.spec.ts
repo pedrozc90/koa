@@ -21,7 +21,7 @@ describe("file-storage controller", () => {
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("page", page);
             expect(response.body).toHaveProperty("rpp", rpp);
-            expect(response.body).toHaveProperty("total");
+            expect(response.body).toHaveProperty("count");
             expect(response.body).toHaveProperty("list");
             expect(response.body.list.length).toBeGreaterThanOrEqual(0);
         });

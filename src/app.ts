@@ -3,10 +3,8 @@ import helmet from "koa-helmet";
 import bodyParser from "@koa/bodyparser";
 
 import { settings, logger } from "./config";
-import rootRouter from "./router/root.router";
-import userRouter from "./router/user.router";
-import fileStorageRouter from "./router/file-storage.router";
 import { koaLogger, onError, onPageNotFound } from "./middlewares";
+import { fileStorageRouter, rootRouter, userRouter } from "./router";
 
 export const init = async () => {
     const app = new Koa();

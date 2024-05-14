@@ -1,5 +1,5 @@
 import { Context, Next } from "koa";
-import { IUser } from "../types/user";
+import { IUser } from "../types";
 
 const randomInt = (max: number = Number.MAX_VALUE, min: number = 0): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;

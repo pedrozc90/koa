@@ -1,13 +1,13 @@
 import Router from "@koa/router";
 
-import multer from "../config/multer";
-import { fetch, upload, get, getContent } from "../controllers/file-storage.controller";
+import { multer } from "../config";
+import { fileStorageController } from "../controllers";
 
 const router = new Router({ prefix: "/file-storage" });
 
-router.get("/", fetch);
-router.post("/", multer.single("file"), upload);
-router.get("/:id", get);
-router.get("/:id/content", getContent);
+router.get("/", fileStorageController.fetch);
+router.post("/", multer.single("file"), fileStorageController.upload);
+router.get("/:id", fileStorageController.get);
+router.get("/:id/content", fileStorageController.content);
 
-export default router;
+export const fileStorageRouter = router;

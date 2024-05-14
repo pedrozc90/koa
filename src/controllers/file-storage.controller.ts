@@ -72,7 +72,7 @@ export const get = async (ctx: Context, next: Next) => {
     ctx.throw(501, "Method Not Implemented.");
 }
 
-export const getContent = async (ctx: Context, next: Next) => {
+export const content = async (ctx: Context, next: Next) => {
     const id = Number(ctx.params.id) || 0;
     ctx.throw(501, "Method Not Implemented.");
 }
