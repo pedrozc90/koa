@@ -39,7 +39,7 @@
         "koa-helmet": "^8.0.1",
         "koa-jwt": "^4.0.4",
         "luxon": "^3.5.0",
-        "runtypes": "^6.7.0",
+        "runtypes": "^7.0.2",
         "winston": "^3.17.0"
     },
     "devDependencies": {
