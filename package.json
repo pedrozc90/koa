@@ -36,7 +36,7 @@
         "jsonwebtoken": "^9.0.3",
         "koa": "^3.1.1",
         "koa-compose": "^4.1.0",
-        "koa-helmet": "^8.0.1",
+        "koa-helmet": "^9.0.0",
         "koa-jwt": "^4.0.4",
         "luxon": "^3.7.2",
         "runtypes": "^7.0.4",
