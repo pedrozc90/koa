@@ -6,5 +6,5 @@ export interface IPing {
     app: {
         name: string;
         version: string;
-    }
+    };
 }

@@ -14,26 +14,31 @@ const COLOR_CODES: Record<number, (s: string) => string> = {
     3: colors.cyan,
     2: colors.green,
     1: colors.green,
-    0: colors.gray
+    0: colors.gray,
 };
 
 const METHOD_COLOR: Record<string, (s: string) => string> = {
-    "GET": colors.green,
-    "POST": colors.yellow,
-    "PUT": colors.blue,
-    "PATCH": colors.magenta,
-    "DELETE": colors.red,
-    "HEAD": colors.green,
-    "OPTIONS": colors.green
+    GET: colors.green,
+    POST: colors.yellow,
+    PUT: colors.blue,
+    PATCH: colors.magenta,
+    DELETE: colors.red,
+    HEAD: colors.green,
+    OPTIONS: colors.green,
 };
 
-const log = (level: string = "info", ctx: Context, start_time: number, length: number | null, error: any, event?: unknown): void => {
+const log = (
+    level: string = "info",
+    ctx: Context,
+    start_time: number,
+    length: number | null,
+    error: any,
+    event?: unknown,
+): void => {
     const color_method = METHOD_COLOR[ctx.method] || colors.gray;
 
     // get the status code of the response
-    const status_code = error
-        ? (error.isBoom && error.output?.statusCode || error.status || 500)
-        : (ctx.status || 404);
+    const status_code = error ? (error.isBoom && error.output?.statusCode) || error.status || 500 : ctx.status || 404;
 
     const status_message = HttpStatusMessage[status_code];
 
@@ -42,7 +47,7 @@ const log = (level: string = "info", ctx: Context, start_time: number, length: n
     const color_status = COLOR_CODES[status_level] || COLOR_CODES[0];
 
     // get the human readable response length
-    const length_fmt = (length) ? bytes.format(length) : null;
+    const length_fmt = length ? bytes.format(length) : null;
 
     const elapsed_ms = Date.now() - start_time;
     const elapsed_fmt = formatTime(elapsed_ms);
@@ -53,11 +58,11 @@ const log = (level: string = "info", ctx: Context, start_time: number, length: n
         "->",
         `Status: ${color_status(status_code)},`,
         `Reason: ${status_message}`,
-        `(time: ${elapsed_fmt},  ${(length_fmt) ? `size: ${length_fmt}` : ""})`
+        `(time: ${elapsed_fmt},  ${length_fmt ? `size: ${length_fmt}` : ""})`,
     ].join(" ");
 
     logger.log(level, message);
-}
+};
 
 export const koaLogger = async (ctx: Context, next: Next): Promise<void> => {
     const start_time = Date.now();
@@ -79,7 +84,8 @@ export const koaLogger = async (ctx: Context, next: Next): Promise<void> => {
     // const { body, response: { length } } = ctx;
     if (length === null && body && body instanceof Stream.Readable && body.readable) {
         let counter = new Counter();
-        ctx.body = body.pipe(counter)
+        ctx.body = body
+            .pipe(counter)
             .on("end", () => {
                 length = counter.length;
                 console.log("total length:", length);
@@ -102,6 +108,6 @@ export const koaLogger = async (ctx: Context, next: Next): Promise<void> => {
         res.removeListener("close", onclose);
         log("info", ctx, start_time, length, null, event);
     }
-}
+};
 
 export default koaLogger;

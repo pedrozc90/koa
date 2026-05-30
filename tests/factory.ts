@@ -5,7 +5,6 @@ import supertest from "supertest";
 import { init } from "../src/app";
 
 export class TestFactory {
-
     private _app!: Koa<Koa.DefaultState, Koa.DefaultContext>;
     private _server!: http.Server;
     private _agent!: supertest.Agent;
@@ -35,5 +34,4 @@ export class TestFactory {
     public async close(): Promise<void> {
         this.server.close();
     }
-
 }

@@ -6,7 +6,7 @@ const factory = new TestFactory();
 
 beforeAll(async () => {
     await factory.init();
-})
+});
 
 afterAll(async () => {
     await factory.close();
@@ -17,7 +17,7 @@ describe("file-storage controller", () => {
         it("should return a paged list", async () => {
             const page = 1;
             const rpp = 2;
-            const response = await factory.agent.get(`/file-storage?page=${ page }&rpp=${ rpp }`);
+            const response = await factory.agent.get(`/file-storage?page=${page}&rpp=${rpp}`);
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("page", page);
             expect(response.body).toHaveProperty("rpp", rpp);
@@ -63,7 +63,7 @@ describe("file-storage controller", () => {
     describe("GET /file-storage", () => {
         it("should return a file_storage", async () => {
             const id = 1;
-            const response = await factory.agent.get(`/file-storage/${ id }`);
+            const response = await factory.agent.get(`/file-storage/${id}`);
             expect(response.status).toBe(501);
             // expect(response.body).toHaveProperty("id");
             // expect(response.body).toHaveProperty("hash");
@@ -78,7 +78,7 @@ describe("file-storage controller", () => {
     describe("GET /file-storage", () => {
         it("should return a file_storage", async () => {
             const id = 1;
-            const response = await factory.agent.get(`/file-storage/${ id }/content`);
+            const response = await factory.agent.get(`/file-storage/${id}/content`);
             expect(response.status).toBe(501);
             // expect(response.body).toHaveProperty("id");
             // expect(response.body).toHaveProperty("hash");

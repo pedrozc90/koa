@@ -33,4 +33,4 @@ export const init = async () => {
     });
 
     return app;
-}
+};

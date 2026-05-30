@@ -8,7 +8,7 @@ const { env, name, version } = settings;
 
 export const index = (ctx: Context, next: Next) => {
     ctx.redirect("ping");
-}
+};
 
 export const ping = (ctx: Context, next: Next) => {
     const timestamp = new Date();
@@ -21,10 +21,10 @@ export const ping = (ctx: Context, next: Next) => {
         time_zone: time_zone,
         app: {
             name: name,
-            version: version
-        }
+            version: version,
+        },
     };
 
     ctx.status = 200;
     ctx.body = body;
-}
+};

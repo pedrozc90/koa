@@ -8,7 +8,7 @@ export function toLocalTimestamp(dt: Date, time_zone: string): string {
         second: "2-digit",
         fractionalSecondDigits: 3,
         hour12: false,
-        timeZone: time_zone
+        timeZone: time_zone,
     });
 
     const parts = formatter.formatToParts(dt);
@@ -19,7 +19,7 @@ export function toLocalTimestamp(dt: Date, time_zone: string): string {
     const hours = parts[6].value;
     const minutes = parts[8].value;
     const seconds = parts[10].value;
-    const milliseconds = (parts.length >= 12) ? parts[12].value : "000";
+    const milliseconds = parts.length >= 12 ? parts[12].value : "000";
 
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
@@ -45,4 +45,4 @@ export const formatTime = (ms: number): string => {
     if (ms > 60_000) return Math.round(ms / 60_000).toFixed(3) + " m";
     if (ms > 1_000) return Math.round(ms / 1_000).toFixed(3) + " s";
     return ms + " ms";
-}
+};

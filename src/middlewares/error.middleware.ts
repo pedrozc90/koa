@@ -17,5 +17,5 @@ export const onError = () => {
             // centralized still functions correctly.
             ctx.app.emit("error", err, ctx);
         }
-    }
-}
+    };
+};

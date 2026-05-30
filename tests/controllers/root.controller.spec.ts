@@ -6,7 +6,7 @@ const factory = new TestFactory();
 
 beforeAll(async () => {
     await factory.init();
-})
+});
 
 afterAll(async () => {
     await factory.close();

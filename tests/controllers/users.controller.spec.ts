@@ -6,7 +6,7 @@ const factory = new TestFactory();
 
 beforeAll(async () => {
     await factory.init();
-})
+});
 
 afterAll(async () => {
     await factory.close();
@@ -24,7 +24,9 @@ describe("root controller", () => {
 
     describe("POST /users", () => {
         it("should return a new user", async () => {
-            const response = await factory.agent.post("/users").send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
+            const response = await factory.agent
+                .post("/users")
+                .send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
             expect(response.status).toBe(201);
             expect(response.body).toHaveProperty("id");
             expect(response.body).toHaveProperty("email");
@@ -48,7 +50,9 @@ describe("root controller", () => {
     describe("PUT /users/:id", () => {
         it("should update user data", async () => {
             const id = 1;
-            const response = await factory.agent.put(`/users/${id}`).send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
+            const response = await factory.agent
+                .put(`/users/${id}`)
+                .send({ email: "unknown@email.com", username: "unknown", password: "1", role: "root" });
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("id");
             expect(response.body).toHaveProperty("email");

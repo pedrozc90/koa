@@ -1,7 +1,6 @@
 import { Transform, TransformCallback, TransformOptions } from "stream";
 
 export class Counter extends Transform {
-
     public length: number = 0;
 
     constructor(opts?: TransformOptions) {
@@ -17,5 +16,4 @@ export class Counter extends Transform {
         // call the callback to indicate that the transformation is complete
         callback();
     }
-
 }

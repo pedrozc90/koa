@@ -15,7 +15,7 @@ const main = async () => {
 
             const addr = server.address();
 
-            const bind = (addr) ? (typeof addr === "string" ? `Pipe ${addr}` : `http://${addr.address}:${addr.port}`) : null;
+            const bind = addr ? (typeof addr === "string" ? `Pipe ${addr}` : `http://${addr.address}:${addr.port}`) : null;
 
             logger.info("----------------------------------------------------------------------");
             logger.info(`Application running on ${bind}`);
@@ -30,7 +30,7 @@ const main = async () => {
                 throw error;
             }
 
-            const bind: string = (typeof port === "string") ? "Pipe " + port : "Port " + port;
+            const bind: string = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
             // handle specific listen errors with friendly messages
             switch (error.code) {
@@ -49,6 +49,6 @@ const main = async () => {
     }
 
     return server;
-}
+};
 
 main();

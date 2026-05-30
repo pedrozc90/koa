@@ -4,7 +4,7 @@ export const onPageNotFound = () => {
     return async (ctx: Context, next: Next) => {
         try {
             await next();
-            
+
             const status = ctx.status || 404;
             if (status === 404) {
                 ctx.throw(404, "Page Not Found");
@@ -15,7 +15,7 @@ export const onPageNotFound = () => {
             ctx.status = e.status || 404;
             ctx.type = "json";
             ctx.body = {
-                message: "Page Not Found"
+                message: "Page Not Found",
             };
 
             // since we handled this manually we'll
@@ -24,5 +24,5 @@ export const onPageNotFound = () => {
             // centralized still functions correctly.
             ctx.app.emit("error", e, ctx);
         }
-    }
-}
+    };
+};

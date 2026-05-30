@@ -2,15 +2,8 @@
     "verbose": true,
     "restartable": "rs",
     "delay": 300,
-    "ignore": [
-        ".git",
-        "docs",
-        "dist",
-        "node_modules"
-    ],
-    "watch": [
-        "src"
-    ],
+    "ignore": [".git", "docs", "dist", "node_modules"],
+    "watch": ["src"],
     "ext": "ts",
     "env": {
         "NODE_ENV": "development"

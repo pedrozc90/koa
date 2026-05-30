@@ -9,7 +9,7 @@ describe("DateTimeUtils", () => {
             const dt = new Date();
             expect(dt.toISOString()).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d{3}Z$/g);
 
-            const ldt = toLocalTimestamp(dt, "America/Sao_Paulo")
+            const ldt = toLocalTimestamp(dt, "America/Sao_Paulo");
             expect(ldt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d{3}$/g);
         });
     });
@@ -44,16 +44,14 @@ describe("StringUtils", () => {
 describe("HashUtils", () => {
     describe("hash", () => {
         it("should return the same value", async () => {
-            const hash = crypto.createHash("sha256")
-                .update("PEDRO")
-                .digest("hex");
+            const hash = crypto.createHash("sha256").update("PEDRO").digest("hex");
             expect(hash).toBeDefined();
         });
 
         it("should return the same value", async () => {
             const s = createHash("PEDRO");
             expect(s).toBe("2c86ba863363265fac2e37c96c6a041d8974be226b91c063c71eac7b4f6e1c38");
-            
+
             const t = createHash("pedro");
             expect(t).toBe("adcdb9b33be88c9e26637d32dcb66a8e8bb3bc657664ea9e9d9a94ddd2b16d2a");
 
