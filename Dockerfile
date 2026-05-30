@@ -1,5 +1,5 @@
 # stage 1: compile
-FROM node:21.6-alpine AS builder
+FROM node:24-alpine AS builder
 
 # update alpine packages
 RUN apk update
