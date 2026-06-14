@@ -47,7 +47,8 @@
         "koa-compose": "^4.1.0",
         "koa-helmet": "^9.0.0",
         "koa-jwt": "^4.0.4",
-        "pg": "^8.21.0"
+        "pg": "^8.21.0",
+        "zod": "^4.4.3"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",

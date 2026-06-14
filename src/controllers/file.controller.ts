@@ -1,8 +1,8 @@
 import type { Context } from "koa";
 import type { StoredFile } from "../generated/client";
+import { StoredFileService } from "../services";
 import { BadRequestError, NotFoundError } from "../types";
 import { FileUtils, toBigInt, toInt } from "../utils";
-import { StoredFileService } from "../services";
 
 type StoredFileDto = {
     id: string;

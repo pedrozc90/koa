@@ -3,7 +3,7 @@ import { UserRepository } from "../repos";
 import { BadRequestError, NotFoundError } from "../types";
 import { HashUtils } from "../utils";
 
-export type UserCreateArgs = Pick<User, "email" | "password" | "role">;
+export type UserCreateArgs = Pick<User, "email" | "password">;
 export type UserUpdateArgs = Partial<Pick<User, "email" | "password" | "role">>;
 
 const validateRole = (value?: string | null): Role | undefined => {
@@ -26,10 +26,11 @@ const isValidPassword = (value?: string | null | undefined): boolean => {
     return typeof value === "string" && value.length >= 6 && value.length <= 32;
 };
 
-export const get = async (id: bigint): Promise<User> => {
-    const user = await UserRepository.findOne(id);
+export const get = async (args: { id: bigint } | { email: string }): Promise<User> => {
+    const user = await UserRepository.findOne(args);
     if (!user) {
-        throw new NotFoundError(`User ${id} not found.`);
+        const ref = "id" in args ? args.id : args.email;
+        throw new NotFoundError(`User ${ref} not found.`);
     }
     return user;
 };
@@ -40,7 +41,6 @@ export const fetch = async (): Promise<User[]> => {
 
 export const create = async (data: UserCreateArgs): Promise<User> => {
     const { email, password } = data;
-    const role = validateRole(data.role);
 
     if (!email || !password) {
         throw new BadRequestError("email and password are required.");
@@ -54,17 +54,12 @@ export const create = async (data: UserCreateArgs): Promise<User> => {
         throw new BadRequestError("password must have between 6 adn 32 characteres.");
     }
 
-    if (data.role && !role) {
-        throw new BadRequestError("role is required.");
-    }
-
     const hashed = await HashUtils.hash(password);
-    console.log("PASSWORD", password, hashed, hashed.length);
 
     return UserRepository.create({
         email: email,
         password: hashed,
-        role: role ?? Role.NONE,
+        role: Role.NORMAL,
     });
 };
 
@@ -72,11 +67,11 @@ export const update = async (id: bigint, input: UserUpdateArgs): Promise<User> =
     const { email, password } = input;
     const role = validateRole(input.role);
 
-    if (email && isValidEmail(email)) {
+    if (email && !isValidEmail(email)) {
         throw new BadRequestError(`email '${email}' is invalid.`);
     }
 
-    if (password && isValidPassword(password)) {
+    if (password && !isValidPassword(password)) {
         throw new BadRequestError("password must have between 6 adn 32 characteres.");
     }
 
@@ -103,4 +98,8 @@ export const update = async (id: bigint, input: UserUpdateArgs): Promise<User> =
     }
 
     return UserRepository.update(id, data);
+};
+
+export const remove = async (id: bigint): Promise<User> => {
+    return UserRepository.remove(id);
 };

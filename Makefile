@@ -21,6 +21,14 @@ run: ## run application on development mode
 test: ## run tests
 	npm test
 
+.PHONY: lint
+lint: ## run eslint
+	npm run lint
+
+.PHONY: format
+format: ## run format --fix
+	npm run format:fix
+
 # -- docker -------------------
 
 .PHONY: up

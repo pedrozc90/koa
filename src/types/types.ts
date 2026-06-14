@@ -1,10 +1,20 @@
+import type { SignOptions } from "jsonwebtoken";
+
 /* --- Settings --- */
 export interface CorsSettings {
     origin?: string | undefined;
 }
 
 export interface DatabaseSettings {
-    url?: string | undefined;
+    url: string;
+}
+
+export type JwtExpiresIn = NonNullable<SignOptions["expiresIn"]>;
+
+export interface JwtSettings {
+    secret: string;
+    issuer: string;
+    expiresIn: JwtExpiresIn;
 }
 
 export interface HashingSettings {
@@ -19,6 +29,7 @@ export interface Settings {
     port: number;
     cors: CorsSettings;
     db: DatabaseSettings;
+    jwt: JwtSettings;
     hashing: HashingSettings;
 }
 

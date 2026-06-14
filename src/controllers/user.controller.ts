@@ -1,9 +1,9 @@
 import type { Context } from "koa";
 import type { Role, User } from "../generated/client";
-import { toBigInt } from "../utils";
+import { UserCreateSchema, UserUpdateSchema } from "../schemas";
 import { UserService } from "../services";
 import { BadRequestError } from "../types";
-import type { UserCreateArgs, UserUpdateArgs } from "../services/user.service";
+import { removeUndefined, toBigInt } from "../utils";
 
 type UserDto = {
     id: string;
@@ -26,31 +26,6 @@ const toDto = (user: User | null): UserDto | null => {
     };
 };
 
-// const isUserCreateArgs = (val: unknown): val is UserCreateArgs => {
-//     return (
-//         typeof val === "object" &&
-//         val !== null &&
-//         "email" in val &&
-//         typeof val.email === "string" &&
-//         "password" in val &&
-//         typeof val.password === "string"
-//         // && ("role" in val)
-//     );
-// };
-
-// const isUserUpdateArgs = (val: unknown): val is UserUpdateArgs => {
-//     return (
-//         typeof val === "object" &&
-//         val !== null &&
-//         "email" in val &&
-//         (typeof val.email === "string" || typeof val.email === "undefined") &&
-//         "pasword" in val &&
-//         (typeof val.pasword === "string" || typeof val.pasword === "undefined") &&
-//         "roles" in val &&
-//         (typeof val.roles === "string" || typeof val.roles === "undefined")
-//     );
-// };
-
 export const fetch = async (ctx: Context) => {
     const list = await UserService.fetch();
 
@@ -66,14 +41,14 @@ export const get = async (ctx: Context) => {
         throw new BadRequestError("id is required");
     }
 
-    const user = await UserService.get(id);
+    const user = await UserService.get({ id });
 
     ctx.status = 200;
     ctx.body = toDto(user);
 };
 
 export const create = async (ctx: Context) => {
-    const data = ctx.request.body as UserCreateArgs;
+    const data = UserCreateSchema.parse(ctx.request.body);
     const user = await UserService.create(data);
 
     ctx.status = 201;
@@ -86,9 +61,21 @@ export const update = async (ctx: Context) => {
         throw new BadRequestError("id is required");
     }
 
-    const data = ctx.request.body as UserUpdateArgs;
+    const data = removeUndefined(UserUpdateSchema.parse(ctx.request.body));
     const user = await UserService.update(id, data);
 
     ctx.status = 200;
     ctx.body = toDto(user);
+};
+
+export const remove = async (ctx: Context) => {
+    const id = toBigInt(ctx["params"]["id"]);
+    if (!id) {
+        throw new BadRequestError("id is required");
+    }
+
+    const user = await UserService.remove(id);
+
+    ctx.status = 200;
+    ctx.body = { message: `User ${user.email} removed` };
 };

@@ -3,10 +3,10 @@ import { prisma } from "../libs";
 import { ConflictError, NotFoundError } from "../types";
 import { PrismaUtils } from "../utils";
 
-export const findOne = async (id: bigint | undefined): Promise<User | null> => {
-    if (!id) return null;
+export const findOne = async (where: { id: bigint } | { email: string }): Promise<User | null> => {
+    if (Object.keys(where).length === 0) return null;
     return prisma.user.findUnique({
-        where: { id: id },
+        where: { ...where },
     });
 };
 
@@ -54,6 +54,17 @@ export const update = async (id: bigint, data: Partial<Pick<User, "email" | "pas
         if (PrismaUtils.isError(e, "P2025")) {
             throw new NotFoundError(`user '${id}' not found`, e);
         }
+        const ex = PrismaUtils.map(e);
+        throw ex ?? e;
+    }
+};
+
+export const remove = async (id: bigint): Promise<User> => {
+    try {
+        return prisma.user.delete({
+            where: { id: id },
+        });
+    } catch (e) {
         const ex = PrismaUtils.map(e);
         throw ex ?? e;
     }

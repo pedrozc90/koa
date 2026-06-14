@@ -1,5 +1,8 @@
+import { JwtPayload } from "./services/auth.service";
+
 declare module "koa" {
     interface Context {
-        _useless: never;
+        token?: string;
+        jwt: JwtPayload;
     }
 }
